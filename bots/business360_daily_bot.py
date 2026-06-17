@@ -69,6 +69,12 @@ COMPARISON_DAY_TYPE_LABELS = {
     "student_promo": "акционные пн/вт",
     "weekday": "обычные будни",
 }
+COMPARISON_BLOCK_LABELS = {
+    "holiday": "Праздничный день",
+    "weekend": "Выходной день",
+    "student_promo": "Акционный день",
+    "weekday": "Будний день",
+}
 MONTH_NAMES = {
     1: "январь",
     2: "февраль",
@@ -612,6 +618,10 @@ def day_type_label(value):
 
 def comparison_day_type_label(value):
     return COMPARISON_DAY_TYPE_LABELS[comparison_day_type(value)]
+
+
+def monthly_average_header(value):
+    return f"Среднее по месяцу. {COMPARISON_BLOCK_LABELS[comparison_day_type(value)]}.\n"
 
 
 def student_promo_note(value):
@@ -2500,16 +2510,15 @@ def build_city_report_payload(cinema_id):
     message += f"• Билеты: {ru_money(city['tickets_revenue'])}\n"
     message += f"• Зрители: {ru_num(city['viewers'])}\n"
     message += f"• Бар: {ru_money(city['bar_revenue'])} - Доля бара: {ru_pct(city['bar_share'])}\n\n"
-    avg_label = comparison_day_type_label(target_date)
-    message += "Среднее по месяцу\n"
-    message += f"• Percap: {ru_rub(city['percap'])} | {avg_label}: {ru_rub(month_avg['percap'])} | {delta_text(city['percap'], month_avg['percap'])}\n"
-    message += f"• Средний чек: {ru_rub(city['avg_check'])} | {avg_label}: {ru_rub(month_avg['avg_check'])} | {delta_text(city['avg_check'], month_avg['avg_check'])}\n"
-    message += f"• Средняя цена билета: {ru_rub(city['avg_ticket'])} | {avg_label}: {ru_rub(month_avg['avg_ticket'])} | {delta_text(city['avg_ticket'], month_avg['avg_ticket'])}\n"
-    message += f"• Зрители: {ru_num(city['viewers'])} | {avg_label}: {ru_num(month_avg['viewers_same_type'])} | {delta_text(city['viewers'], month_avg['viewers_same_type'])}\n"
-    message += f"• Бар: {ru_money(city['bar_revenue'])} | {avg_label}: {ru_money(month_avg['bar_revenue'])} | {delta_text(city['bar_revenue'], month_avg['bar_revenue'])}\n"
-    message += f"• Конверсия бара: {ru_pct(city['bar_conversion'])} | {avg_label}: {ru_pct(month_avg['bar_conversion'])} | {delta_text(city['bar_conversion'], month_avg['bar_conversion'])}\n"
-    message += f"• FC: {ru_pct(city['foodcost'])} | {avg_label}: {ru_pct(month_avg['foodcost'])} | {delta_text(city['foodcost'], month_avg['foodcost'], lower_is_better=True)}\n"
-    message += f"• LC: {ru_pct(city['lc'])} | {avg_label}: {ru_pct(month_avg['lc_same_type'])} | {delta_text(city['lc'], month_avg['lc_same_type'], lower_is_better=True, good_word=True)}\n"
+    message += monthly_average_header(target_date)
+    message += f"• Percap: {ru_rub(city['percap'])} | {ru_rub(month_avg['percap'])} | {delta_text(city['percap'], month_avg['percap'])}\n"
+    message += f"• Средний чек: {ru_rub(city['avg_check'])} | {ru_rub(month_avg['avg_check'])} | {delta_text(city['avg_check'], month_avg['avg_check'])}\n"
+    message += f"• Средняя цена билета: {ru_rub(city['avg_ticket'])} | {ru_rub(month_avg['avg_ticket'])} | {delta_text(city['avg_ticket'], month_avg['avg_ticket'])}\n"
+    message += f"• Зрители: {ru_num(city['viewers'])} | {ru_num(month_avg['viewers_same_type'])} | {delta_text(city['viewers'], month_avg['viewers_same_type'])}\n"
+    message += f"• Бар: {ru_money(city['bar_revenue'])} | {ru_money(month_avg['bar_revenue'])} | {delta_text(city['bar_revenue'], month_avg['bar_revenue'])}\n"
+    message += f"• Конверсия бара: {ru_pct(city['bar_conversion'])} | {ru_pct(month_avg['bar_conversion'])} | {delta_text(city['bar_conversion'], month_avg['bar_conversion'])}\n"
+    message += f"• FC: {ru_pct(city['foodcost'])} | {ru_pct(month_avg['foodcost'])} | {delta_text(city['foodcost'], month_avg['foodcost'], lower_is_better=True)}\n"
+    message += f"• LC: {ru_pct(city['lc'])} | {ru_pct(month_avg['lc_same_type'])} | {delta_text(city['lc'], month_avg['lc_same_type'], lower_is_better=True, good_word=True)}\n"
     message += f"• ФОТ: {ru_money_compact(city['payroll'])}\n"
 
     return message.strip(), True
@@ -3198,15 +3207,14 @@ def build_report_payload():
     message += f"• Зрители: {ru_num(day['viewers'])}\n"
     message += f"• Бар: {ru_money(day['bar_revenue'])} - Доля бара: {ru_pct(day['bar_share'])}\n\n"
 
-    avg_label = comparison_day_type_label(target_date)
-    message += "Среднее по месяцу\n"
-    message += f"• Percap: {ru_rub(day['percap'])} | {avg_label}: {ru_rub(month_avg['percap'])} | {delta_text(day['percap'], month_avg['percap'])}\n"
-    message += f"• Средний чек: {ru_rub(day['avg_check'])} | {avg_label}: {ru_rub(month_avg['avg_check'])} | {delta_text(day['avg_check'], month_avg['avg_check'])}\n"
-    message += f"• Средняя цена билета: {ru_rub(day['avg_ticket'])} | {avg_label}: {ru_rub(month_avg['avg_ticket'])} | {delta_text(day['avg_ticket'], month_avg['avg_ticket'])}\n"
-    message += f"• Зрители: {ru_num(day['viewers'])} | {avg_label}: {ru_num(month_avg['viewers_same_type'])} | {delta_text(day['viewers'], month_avg['viewers_same_type'])}\n"
-    message += f"• FC: {ru_pct(day['foodcost'])} | {avg_label}: {ru_pct(month_avg['foodcost'])} | {delta_text(day['foodcost'], month_avg['foodcost'], lower_is_better=True)}\n"
+    message += monthly_average_header(target_date)
+    message += f"• Percap: {ru_rub(day['percap'])} | {ru_rub(month_avg['percap'])} | {delta_text(day['percap'], month_avg['percap'])}\n"
+    message += f"• Средний чек: {ru_rub(day['avg_check'])} | {ru_rub(month_avg['avg_check'])} | {delta_text(day['avg_check'], month_avg['avg_check'])}\n"
+    message += f"• Средняя цена билета: {ru_rub(day['avg_ticket'])} | {ru_rub(month_avg['avg_ticket'])} | {delta_text(day['avg_ticket'], month_avg['avg_ticket'])}\n"
+    message += f"• Зрители: {ru_num(day['viewers'])} | {ru_num(month_avg['viewers_same_type'])} | {delta_text(day['viewers'], month_avg['viewers_same_type'])}\n"
+    message += f"• FC: {ru_pct(day['foodcost'])} | {ru_pct(month_avg['foodcost'])} | {delta_text(day['foodcost'], month_avg['foodcost'], lower_is_better=True)}\n"
     message += f"• Оборачиваемость: {ru_num(turnover_current)} дней | вчера: {ru_num(turnover_previous)} дней | {delta_plain(turnover_current, turnover_previous, lower_is_better=True)}\n"
-    message += f"• LC: {ru_pct(day['lc'])} | {avg_label}: {ru_pct(month_avg['lc_same_type'])} | {delta_text(day['lc'], month_avg['lc_same_type'], lower_is_better=True, good_word=True)}\n"
+    message += f"• LC: {ru_pct(day['lc'])} | {ru_pct(month_avg['lc_same_type'])} | {delta_text(day['lc'], month_avg['lc_same_type'], lower_is_better=True, good_word=True)}\n"
     message += f"• ФОТ: {ru_money_compact(day['payroll'])} | Прогноз: {ru_money_compact(projected_payroll)}\n\n"
 
     message += "📈 ПРОГНОЗ МЕСЯЦА\n"
