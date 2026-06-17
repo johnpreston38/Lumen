@@ -531,7 +531,7 @@ def aggregate_rows(rows):
         "percap": revenue_bar / viewers if viewers else None,
         "avg_check": total_revenue / viewers if viewers else None,
         "avg_ticket": revenue_cinema / viewers if viewers else None,
-        "bar_share": revenue_bar / total_revenue if total_revenue else None,
+        "bar_share": revenue_bar / revenue_cinema if revenue_cinema else None,
         "bar_conversion": bar_checks / viewers if viewers else None,
         "bar_check": revenue_bar / bar_checks if bar_checks else None,
         "foodcost": foodcost_amount / revenue_bar if revenue_bar else None,
