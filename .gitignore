@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+*.env
+*.cookie
+*.last_sent_day
+*.db
+*.sqlite
+*.log
+.DS_Store
+state/
+secrets/

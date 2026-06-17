@@ -1,0 +1,9 @@
+[Unit]
+Description=Collect Lumen occupancy snapshot at 23:59
+
+[Timer]
+OnCalendar=*-*-* 23:59:00
+Unit=lumen-occupancy-collector.service
+
+[Install]
+WantedBy=timers.target

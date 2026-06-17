@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Cinema News daily digest at 09:00
+
+[Timer]
+OnCalendar=*-*-* 09:00:00
+Unit=cinema-news-daily.service
+
+[Install]
+WantedBy=timers.target

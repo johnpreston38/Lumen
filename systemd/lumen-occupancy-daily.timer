@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Lumen occupancy report at 09:00
+
+[Timer]
+OnCalendar=*-*-* 09:00:00
+Unit=lumen-occupancy-daily.service
+
+[Install]
+WantedBy=timers.target

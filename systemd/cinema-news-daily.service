@@ -1,0 +1,10 @@
+[Unit]
+Description=Cinema News daily Telegram digest
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/lumen-bots
+EnvironmentFile=/etc/lumen-bots/cinema-news.env
+ExecStart=/usr/bin/python3 /opt/lumen-bots/cinema_news_bot.py --once

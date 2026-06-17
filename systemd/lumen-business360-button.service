@@ -1,0 +1,15 @@
+[Unit]
+Description=Lumen Business360 Telegram button listener
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/lumen-bots
+EnvironmentFile=/etc/lumen-bots/business360.env
+ExecStart=/usr/bin/python3 /opt/lumen-bots/business360_daily_bot.py --bot
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

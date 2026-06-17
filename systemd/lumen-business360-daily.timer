@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Lumen Business360 daily report at 09:50
+
+[Timer]
+OnCalendar=*-*-* 09:50:00
+Unit=lumen-business360-daily.service
+
+[Install]
+WantedBy=timers.target
