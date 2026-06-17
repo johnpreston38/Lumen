@@ -531,7 +531,7 @@ def aggregate_rows(rows):
         "percap": revenue_bar / viewers if viewers else None,
         "avg_check": total_revenue / viewers if viewers else None,
         "avg_ticket": revenue_cinema / viewers if viewers else None,
-        "bar_share": revenue_bar / revenue_cinema if revenue_cinema else None,
+        "bar_share": revenue_bar / total_revenue if total_revenue else None,
         "bar_conversion": bar_checks / viewers if viewers else None,
         "bar_check": revenue_bar / bar_checks if bar_checks else None,
         "foodcost": foodcost_amount / revenue_bar if revenue_bar else None,
@@ -2503,6 +2503,7 @@ def build_city_report_payload(cinema_id):
     message += f"• Выручка: {ru_money(city['revenue'])}\n"
     message += forecast_comparison_line(target_date, city["revenue"], cinema_id)
     message += f"• Бар: {ru_money(city['bar_revenue'])}\n"
+    message += f"• Доля бара: {ru_pct(city['bar_share'])}\n"
     message += f"• Билеты: {ru_money(city['tickets_revenue'])}\n"
     message += f"• Зрители: {ru_num(city['viewers'])}\n\n"
     message += "Сравнение со средним месяца\n"
@@ -3201,6 +3202,7 @@ def build_report_payload():
     message += f"• Выручка: {ru_money(day['revenue'])}\n"
     message += forecast_comparison_line(target_date, day["revenue"])
     message += f"• Бар: {ru_money(day['bar_revenue'])}\n"
+    message += f"• Доля бара: {ru_pct(day['bar_share'])}\n"
     message += f"• Билеты: {ru_money(day['tickets_revenue'])}\n"
     message += f"• Зрители: {ru_num(day['viewers'])}\n\n"
 
