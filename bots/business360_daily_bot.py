@@ -1180,16 +1180,13 @@ def saved_forecast_value(target_date, cinema_id=None):
     return item.get("value")
 
 
-def forecast_comparison_line(target_date, actual_revenue, cinema_id=None):
+def forecast_comparison_text(target_date, actual_revenue, cinema_id=None):
     forecast = saved_forecast_value(target_date, cinema_id)
 
     if not forecast:
         return ""
 
-    return (
-        f"• Прогноз вчера: {ru_money_compact(forecast)} "
-        f"{delta_plain(actual_revenue, forecast)}\n"
-    )
+    return f" | прогноз: {ru_money_compact(forecast)} | {delta_plain(actual_revenue, forecast)}"
 
 
 def previous_week_bounds(today=None):
@@ -2499,8 +2496,7 @@ def build_city_report_payload(cinema_id):
     message += f"{display_date(report_date)}\n"
     message += f"Период: {display_date(target_date)}\n\n"
     message += "Главные KPI\n"
-    message += f"• Выручка: {ru_money(city['revenue'])}\n"
-    message += forecast_comparison_line(target_date, city["revenue"], cinema_id)
+    message += f"• Выручка: {ru_money(city['revenue'])}{forecast_comparison_text(target_date, city['revenue'], cinema_id)}\n"
     message += f"• Билеты: {ru_money(city['tickets_revenue'])}\n"
     message += f"• Зрители: {ru_num(city['viewers'])}\n"
     message += f"• Бар: {ru_money(city['bar_revenue'])} - Доля бара: {ru_pct(city['bar_share'])}\n\n"
@@ -3197,8 +3193,7 @@ def build_report_payload():
     message += f"Период: {display_date(target_date)}\n\n"
 
     message += "Главные KPI\n"
-    message += f"• Выручка: {ru_money(day['revenue'])}\n"
-    message += forecast_comparison_line(target_date, day["revenue"])
+    message += f"• Выручка: {ru_money(day['revenue'])}{forecast_comparison_text(target_date, day['revenue'])}\n"
     message += f"• Билеты: {ru_money(day['tickets_revenue'])}\n"
     message += f"• Зрители: {ru_num(day['viewers'])}\n"
     message += f"• Бар: {ru_money(day['bar_revenue'])} - Доля бара: {ru_pct(day['bar_share'])}\n\n"
