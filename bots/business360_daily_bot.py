@@ -1187,8 +1187,7 @@ def forecast_comparison_line(target_date, actual_revenue, cinema_id=None):
         return ""
 
     return (
-        f"• Прогноз вчера: {ru_money_compact(forecast)} | "
-        f"факт: {ru_money_compact(actual_revenue)} | "
+        f"• Прогноз вчера: {ru_money_compact(forecast)} "
         f"{delta_plain(actual_revenue, forecast)}\n"
     )
 
@@ -2502,10 +2501,9 @@ def build_city_report_payload(cinema_id):
     message += "Главные KPI\n"
     message += f"• Выручка: {ru_money(city['revenue'])}\n"
     message += forecast_comparison_line(target_date, city["revenue"], cinema_id)
-    message += f"• Бар: {ru_money(city['bar_revenue'])}\n"
-    message += f"• Доля бара: {ru_pct(city['bar_share'])}\n"
     message += f"• Билеты: {ru_money(city['tickets_revenue'])}\n"
-    message += f"• Зрители: {ru_num(city['viewers'])}\n\n"
+    message += f"• Зрители: {ru_num(city['viewers'])}\n"
+    message += f"• Бар: {ru_money(city['bar_revenue'])} - Доля бара: {ru_pct(city['bar_share'])}\n\n"
     message += "Сравнение со средним месяца\n"
     message += student_promo_note(target_date)
     message += f"• Percap: {ru_rub(city['percap'])} | среднее по {comparison_day_type_label(target_date)}: {ru_rub(month_avg['percap'])} | {delta_text(city['percap'], month_avg['percap'])}\n"
@@ -3201,10 +3199,9 @@ def build_report_payload():
     message += "Главные KPI\n"
     message += f"• Выручка: {ru_money(day['revenue'])}\n"
     message += forecast_comparison_line(target_date, day["revenue"])
-    message += f"• Бар: {ru_money(day['bar_revenue'])}\n"
-    message += f"• Доля бара: {ru_pct(day['bar_share'])}\n"
     message += f"• Билеты: {ru_money(day['tickets_revenue'])}\n"
-    message += f"• Зрители: {ru_num(day['viewers'])}\n\n"
+    message += f"• Зрители: {ru_num(day['viewers'])}\n"
+    message += f"• Бар: {ru_money(day['bar_revenue'])} - Доля бара: {ru_pct(day['bar_share'])}\n\n"
 
     message += "Сравнение со средним месяца\n"
     message += student_promo_note(target_date)
